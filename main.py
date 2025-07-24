@@ -33,7 +33,7 @@ def init():
 def index():
     connection = init()
     cursor = connection.cursor()
-    my_movies = cursor.execute('SELECT id, title, summary, year, img_url FROM movies').fetchall()
+    my_movies = cursor.execute('SELECT id, title, summary, year,average_rating, img_url FROM movies').fetchall()
 
     # Use a breakpoint in the code line below to debug your script.
     return render_template("index.html",my_movies=my_movies,show_details=False)
@@ -47,14 +47,14 @@ def add_new_movie():
         connection = init()
         cursor = connection.cursor()
         cursor.execute(''' INSERT INTO movies(title,summary,year,average_rating,img_url) VALUES (?,?,?,?,?) ''',(
-                                         new_movies['title'],new_movies['overview'],new_movies['release_date'],new_movies['vote_average'],
+                                         new_movies['title'],new_movies['overview'],new_movies['release_date'],round(new_movies['vote_average'],2),
                                     f'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/{new_movies['poster_path']}'))
-        my_movies = connection.execute('SELECT id, title, summary, year, img_url FROM movies').fetchall()
+        my_movies = connection.execute('SELECT id, title, summary,average_rating, year, img_url FROM movies').fetchall()
         connection.commit()
     else:
         show_movie_lists = False
         cursor = init().cursor()
-        my_movies = cursor.execute('SELECT id, title, summary, year,img_url FROM movies').fetchall()
+        my_movies = cursor.execute('SELECT id, title, summary,average_rating, year,img_url FROM movies').fetchall()
 
     return render_template("add_movie_form.html",my_movies=my_movies,movies=movies,show_movie_lists=show_movie_lists)
 
@@ -62,7 +62,7 @@ def add_new_movie():
 def show_movie_details(title):
     connection = init()
     cursor = connection.cursor()
-    my_movies = cursor.execute(''' SELECT id, title, summary, year, img_url FROM movies WHERE title = ? ''',(title,)).fetchall()
+    my_movies = cursor.execute(''' SELECT id, title, summary, average_rating, year, img_url FROM movies WHERE title = ? ''',(title,)).fetchall()
 
     return render_template("index.html", my_movies=my_movies,show_details=True )
 
@@ -72,7 +72,8 @@ def delete_movie(title):
     connection = init()
     cursor = connection.cursor()
     cursor.execute(''' DELETE FROM movies WHERE title = ? ''',(title,))
-    return f"<h1 style='color:green;text-align:center'>The movie {title} has been deleted</h1>'"
+    connection.commit()
+    return f"<h1 style='color:green;text-align:center;margin-top:3rem'>The movie {title} has been deleted</h1>'"
 
 
 @app.route('/movies/delete_all')

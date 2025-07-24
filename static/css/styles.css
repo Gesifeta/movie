@@ -20,6 +20,10 @@ p{
      border: none;
      cursor: pointer;
  }
+ button a{
+     text-decoration: none;
+     color: #ffffff;
+ }
  select{
      padding: .5rem 1rem;
      border-radius: 12px;

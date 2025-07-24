@@ -24,8 +24,8 @@
         </div>
         <div class="movie-details">
      <div class="details">
-         <h2>{{ movie.title }} <span style="font-weight: inherit;color: gray">({{movie.year.split()[0]}})</span></h2>
-     <h3 class="rating">{{ movie.vote_average }} ⭐</h3>
+         <h2>{{ movie.title }} <span style="font-weight: inherit;color: gray">({{movie.year.split("-")[0]}})</span></h2>
+     <h3 class="rating">{{ movie['average_rating'] }} ⭐</h3>
      <p>{{ movie.summary }}</p>
      </div>
      <div class="btn-group">
