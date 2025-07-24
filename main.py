@@ -24,16 +24,28 @@ def init():
         return f'Unable to connect to movies.db: {e}'
     else:
         c = conn.cursor()
+        c.execute(''' CREATE TABLE IF NOT EXISTS rating
+        (
+            id
+            INTEGER
+            PRIMARY
+            KEY,
+            movie_title
+            VARCHAR
+                      (
+            255
+                      ) , comment TEXT, average_rating REAL)''')
         c.execute('''CREATE TABLE IF NOT EXISTS movies(id INTEGER PRIMARY KEY AUTOINCREMENT,
                                                        title TEXT,summary TEXT, year VARCHAR(12),img_url TEXT,average_rating REAL) ''')
         conn.commit()
         return conn
 
+
 @app.route('/')
 def index():
     connection = init()
     cursor = connection.cursor()
-    my_movies = cursor.execute('SELECT id, title, summary, year,average_rating, img_url FROM movies').fetchall()
+    my_movies = cursor.execute('SELECT id, title, summary, year, average_rating, img_url FROM movies').fetchall()
 
     # Use a breakpoint in the code line below to debug your script.
     return render_template("index.html",my_movies=my_movies,show_details=False)
@@ -62,8 +74,8 @@ def add_new_movie():
 def show_movie_details(title):
     connection = init()
     cursor = connection.cursor()
-    my_movies = cursor.execute(''' SELECT id, title, summary, average_rating, year, img_url FROM movies WHERE title = ? ''',(title,)).fetchall()
-
+    my_movies = cursor.execute(''' SELECT movies.id, title, summary,comment, movies.average_rating, year, img_url FROM movies JOIN rating ON rating.movie_title WHERE title = ? ''',(title,)).fetchall()
+    print(my_movies)
     return render_template("index.html", my_movies=my_movies,show_details=True )
 
 
@@ -84,6 +96,65 @@ def delete_all_movie():
     connection.commit()
     connection.close()
     return redirect(url_for('index'))
+
+
+@app.route('/movies/rating/<string:title>',methods=['POST','GET'])
+def add_new_rating(title):
+    if request.method == "POST":
+        movie_title = request.form['title']
+        comment = request.form['comment']
+        average_rating = request.form['rate']
+        try:
+            connection = init()
+            cursor = connection.cursor()
+            cursor.execute(''' INSERT INTO rating(movie_title,comment,average_rating) VALUES (?,?,?)  ''',(movie_title,comment,average_rating))
+        except sqlite3.OperationalError as e:
+            return f'Unable to connect to movies.db: {e}'
+        else:
+            connection.commit()
+            return f'Successfully updated the rating.'
+    return render_template("rating_form.html",title=title)
+
+
+@app.route('/movies/rating/update/<title>')
+def update_rating(title):
+    title = request.form['movie_title']
+    comment = request.form['comment']
+    average_rating = request.form['average_rating']
+
+    try:
+        connection = init()
+        cursor = connection.cursor()
+        cursor.execute('''UPDATE rating SET comment = ?,average_rating=? WHERE title = ? ''',(comment,average_rating,title))
+    except sqlite3.OperationalError as e:
+        return f'Unable to connect to movies.db: {e}'
+    else:
+        connection.commit()
+        return f'Successfully updated the rating.'
+
+
+@app.route('/movies/rating/<title>',methods=['POST'])
+def rating_form(title):
+    return render_template("rating_form.html",title=title)
+
+
+
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return f'<h1>404</h1><p>The resource could not be found.</p>', 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return f'<h1>500</h1><p>The server could not be served.</p>', 500
+
+@app.errorhandler(403)
+def forbidden(e):
+    return f'<h1>403</h1><p>You do not have permission to access this resource.'
+
+
 
 
 

@@ -14,7 +14,7 @@
   {% if show_movie_lists %}
        <div class="movie-lists">
            {% for movie in my_movies %}
-           <a href={{url_for('show_movie_details',title=movie.title)}}>{{movie.title}}, {{ movie.year}}</a>
+           <a href={{url_for('rating_form',title=movie['title'])}}>{{movie.title}}, {{ movie.year}}</a>
         {% endfor %}
        </div>
 {% else %}

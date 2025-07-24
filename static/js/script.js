@@ -9,7 +9,6 @@ movies.forEach((movie)=>{
             })
             e.target.parentNode.style.display = "none"
             e.target.parentNode.nextElementSibling.style.display = "flex"
-
   return ()=> clearTimeout(show)
 
         },1000)
