@@ -1,0 +1,95 @@
+{
+  "status": "success",
+  "results": [
+    {
+      "rank": 1,
+      "title": "Dune: Part Two",
+      "year": 2024,
+      "rating": 8.8,
+      "genre": ["Sci-Fi", "Adventure"],
+      "description": "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
+      "cover_image": "/static/images/dune.jpeg"
+    },
+    {
+      "rank": 2,
+      "title": "Oppenheimer",
+      "year": 2023,
+      "rating": 8.6,
+      "genre": ["Drama", "History"],
+      "description": "The story of J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II.",
+      "cover_image": "/static/images/oppenheimer.jpg"
+    },
+    {
+      "rank": 3,
+      "title": "Inside Out 2",
+      "year": 2024,
+      "rating": 8.4,
+      "genre": ["Animation", "Family"],
+      "description": "Riley navigates teenage emotions as new feelings arrive at headquarters—including Anxiety, Envy, and Embarrassment.",
+      "cover_image": "/static/images/insideout.jpeg"
+    },
+    {
+      "rank": 4,
+      "title": "Spider-Man: Across the Spider-Verse",
+      "year": 2023,
+      "rating": 8.9,
+      "genre": ["Animation", "Action"],
+      "description": "Miles Morales goes on an interdimensional adventure with other Spider-People to face a new powerful villain.",
+      "cover_image": "/static/images/spiderman.jpeg"
+    },
+    {
+      "rank": 5,
+      "title": "The Batman",
+      "year": 2022,
+      "rating": 8.2,
+      "genre": ["Action", "Crime"],
+      "description": "Batman ventures into Gotham's underworld when a sadistic killer leaves behind a trail of cryptic clues.",
+      "cover_image": "/static/images/batman.jpeg"
+    },
+    {
+      "rank": 6,
+      "title": "Top Gun: Maverick",
+      "year": 2022,
+      "rating": 8.3,
+      "genre": ["Action", "Drama"],
+      "description": "After more than 30 years of service, Maverick returns to train a new generation of elite Top Gun graduates.",
+      "cover_image": "/static/images/topgun.jpeg"
+    },
+    {
+      "rank": 7,
+      "title": "Mission: Impossible – Dead Reckoning Part One",
+      "year": 2023,
+      "rating": 7.9,
+      "genre": ["Action", "Thriller"],
+      "description": "Ethan Hunt and the IMF team race against time to track down a deadly new weapon that threatens humanity.",
+      "cover_image": "/static/images/mission.jpeg"
+    },
+    {
+      "rank": 8,
+      "title": "Barbie",
+      "year": 2023,
+      "rating": 7.5,
+      "genre": ["Comedy", "Fantasy"],
+      "description": "Barbie begins a journey of self-discovery after experiencing a crisis that challenges her world and identity.",
+      "cover_image": "/static/images/barbie.jpeg"
+    },
+    {
+      "rank": 9,
+      "title": "Poor Things",
+      "year": 2023,
+      "rating": 8.0,
+      "genre": ["Drama", "Sci-Fi"],
+      "description": "A young woman brought back to life by a brilliant scientist embarks on a fantastical journey of self-liberation.",
+      "cover_image": "/static/images/poorthing.jpg"
+    },
+    {
+      "rank": 10,
+      "title": "Guardians of the Galaxy Vol. 3",
+      "year": 2023,
+      "rating": 8.1,
+      "genre": ["Action", "Sci-Fi"],
+      "description": "The Guardians must protect Rocket from a powerful enemy while confronting painful secrets of his past.",
+      "cover_image": "/static/images/galaxy.jpeg"
+    }
+  ]
+}

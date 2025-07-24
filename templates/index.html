@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Movies</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<main>
+    <div class="container-heading">
+        <h1  style="padding: 1rem 0"><span style="border-bottom:solid 2px dodgerblue;padding-bottom: .5rem">Top</span> Movies</h1>
+        <p>These are my all time top movies</p>
+    </div>
+
+    <div class="movies">
+        {% for movie in movies %}
+        <div  class="movie">
+            <img onmouseover="showDetails()" src="{{movie.cover_image}}" alt="{{movie.title}}">
+            <p class="movie-rank">{{movie.rank}}</p>
+        </div>
+        <div class="movie-details">
+     <div class="details">
+         <h2>{{ movie.title }} <span style="font-weight: inherit;color: gray">({{movie.year}})</span></h2>
+     <h3 class="rating">{{ movie.rating }} ⭐</h3>
+     <p>{{ movie.description }}</p>
+     </div>
+     <div class="btn-group">
+         <button type="button" class="btn btn-primary">Update</button>
+         <button type="button" class="btn btn-danger" onclick="((e)=>showMoviesList(e))()">Cancel</button>
+     </div>
+ </div>
+        {% endfor %}
+        <a href="{{url_for('add_new_movie') }}">Add movie</a>
+    </div>
+</main>
+<script src="/static/js/script.js"></script>
+</body>
+</html>
