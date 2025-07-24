@@ -81,7 +81,10 @@ p{
     align-self: flex-start;
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: 1rem;
+}
+.movie-lists a {
+    text-decoration: none;
 }
 h1,h2{
     line-height: 1.5;
@@ -128,5 +131,5 @@ h1,h2{
 }
 .rotate{
     transform: rotatey(180deg);
-    transition: transform 1s ease-in-out;
+    transition: transform 1s ease-in;
 }

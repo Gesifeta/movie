@@ -24,6 +24,7 @@ function showMoviesList(e){
      movie_details =document.querySelectorAll(".movie-details")
     movies.forEach(movie=>{
         movie.style.display = "flex"
+        movie.style.tranform = "rotatey(-180deg)"
     })
     movie_details.forEach(detail=>{
         detail.style.display ="none"

@@ -30,7 +30,7 @@
      </div>
      <div class="btn-group">
          <button type="button" class="btn btn-primary">Update</button>
-         <button type="button" class="btn btn-danger" onclick="((e)=>showMoviesList(e))()">Cancel</button>
+         <button type="button" class="btn btn-danger"><a href="{{ url_for('delete_movie',title=movie.title)}}" >Delete</a> </button>
      </div>
  </div>
         {% endfor %}

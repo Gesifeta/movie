@@ -67,13 +67,24 @@ def show_movie_details(title):
     return render_template("index.html", my_movies=my_movies,show_details=True )
 
 
-@app.route('/movies/delete')
-def delete_movie():
+@app.route("/movie/delete/<string:title>")
+def delete_movie(title):
+    connection = init()
+    cursor = connection.cursor()
+    cursor.execute(''' DELETE FROM movies WHERE title = ? ''',(title,))
+    return f"<h1 style='color:green;text-align:center'>The movie {title} has been deleted</h1>'"
+
+
+@app.route('/movies/delete_all')
+def delete_all_movie():
     connection = init()
     cursor = connection.cursor()
     cursor.execute('DELETE FROM movies')
     connection.commit()
+    connection.close()
     return redirect(url_for('index'))
+
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
