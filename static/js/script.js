@@ -3,14 +3,17 @@ function showDetails(){
 movies.forEach((movie)=>{
     movie.addEventListener("click",(e)=>{
         e.target.classList.add("rotate")
-        setTimeout(()=>{
+        let show=setTimeout(()=>{
             movies.forEach(mov=>{
                 mov.style.display= "none"
             })
             e.target.parentNode.style.display = "none"
             e.target.parentNode.nextElementSibling.style.display = "flex"
 
+  return ()=> clearTimeout(show)
+
         },1000)
+
     })
 
 })

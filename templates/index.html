@@ -13,16 +13,20 @@
     </div>
 
     <div class="movies">
-        {% for movie in movies %}
+        {% if not my_movies %}
+         <h1>Movie Not Available Yet.</h1>
+     </div>
+        {% else %}
+        {% for movie in my_movies %}
         <div  class="movie">
-            <img onmouseover="showDetails()" src="{{movie.cover_image}}" alt="{{movie.title}}">
-            <p class="movie-rank">{{movie.rank}}</p>
+            <img onmouseover="showDetails()" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2{{movie.img_url}}" alt="{{movie.title}}">
+            <p class="movie-rank">{{movie.popularity}}</p>
         </div>
         <div class="movie-details">
      <div class="details">
-         <h2>{{ movie.title }} <span style="font-weight: inherit;color: gray">({{movie.year}})</span></h2>
-     <h3 class="rating">{{ movie.rating }} ⭐</h3>
-     <p>{{ movie.description }}</p>
+         <h2>{{ movie.title }} <span style="font-weight: inherit;color: gray">({{movie.year.split()[0]}})</span></h2>
+     <h3 class="rating">{{ movie.vote_average }} ⭐</h3>
+     <p>{{ movie.summary }}</p>
      </div>
      <div class="btn-group">
          <button type="button" class="btn btn-primary">Update</button>
@@ -30,7 +34,10 @@
      </div>
  </div>
         {% endfor %}
-        <a href="{{url_for('add_new_movie') }}">Add movie</a>
+         <div class="btn-group">
+         <button type="button" class="btn btn-primary"> <a href="{{url_for('add_new_movie')}}">Add movie</a></button>
+           </div>
+        {% endif %}
     </div>
 </main>
 <script src="/static/js/script.js"></script>

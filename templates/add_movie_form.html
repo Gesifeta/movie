@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Movie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<main>
+    <div class="container-heading">
+        <h1  style="padding: 1rem 0"><span style="border-bottom:solid 2px dodgerblue;padding-bottom: .5rem">Add</span> New Movie</h1>
+    </div>
+   <div class="movies">
+  {% if show_movie_lists %}
+       <div class="movie-lists">
+           {% for movie in my_movies %}
+           <a href={{url_for('show_movie_details',title=movie.title)}}>{{movie.title}}, {{ movie.year}}</a>
+        {% endfor %}
+       </div>
+{% else %}
+     <div class="details">
+         <form action="{{url_for('add_new_movie')}}" method="post">
+             <div class="form-control">
+                 <label for="title">Movie Title</label>
+                 <select id="title" name="title">
+                     {% for movie in movies %}
+                     <option value="{{ movie.title }}">{{ movie.title }}</option>
+                     {% endfor %}
+                 </select>
+             </div>
+            <div class="btn-group">
+                 <button type="submit" class="btn btn-primary">Add</button>
+                 <button type="button" class="btn btn-danger">Cancel</button>
+             </div>
+         </form>
+
+     </div>
+{% endif %}
+ </div>
+    </main>
+</body>
+</html>
