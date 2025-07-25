@@ -30,11 +30,10 @@ def init():
             INTEGER
             PRIMARY
             KEY,
-            movie_title
-            VARCHAR
-                      (
-            255
-                      ) , comment TEXT, average_rating REAL)''')
+            movie_title TEXT,
+            comment TEXT,
+            average_rating REAL,
+            FOREIGN KEY (movie_title) REFERENCES movies (title))''')
         c.execute('''CREATE TABLE IF NOT EXISTS movies(id INTEGER PRIMARY KEY AUTOINCREMENT,
                                                        title TEXT,summary TEXT, year VARCHAR(12),img_url TEXT,average_rating REAL) ''')
         conn.commit()
@@ -53,6 +52,8 @@ def index():
 
 @app.route('/movie/add_new',methods=['POST','GET'])
 def add_new_movie():
+    heading = "Rate movies from the list"
+
     if request.method == "POST":
         show_movie_lists = True
         new_movies = [movie for movie in movies if movie.get('title')==request.form['title']][0]
@@ -64,19 +65,20 @@ def add_new_movie():
         my_movies = connection.execute('SELECT id, title, summary,average_rating, year, img_url FROM movies').fetchall()
         connection.commit()
     else:
+        heading = "Add New Movie"
         show_movie_lists = False
         cursor = init().cursor()
         my_movies = cursor.execute('SELECT id, title, summary,average_rating, year,img_url FROM movies').fetchall()
-
-    return render_template("add_movie_form.html",my_movies=my_movies,movies=movies,show_movie_lists=show_movie_lists)
+    return render_template("add_movie_form.html",my_movies=my_movies,movies=movies,show_movie_lists=show_movie_lists,heading=heading)
 
 @app.route('/movie/details/<string:title>')
 def show_movie_details(title):
     connection = init()
     cursor = connection.cursor()
-    my_movies = cursor.execute(''' SELECT movies.id, title, summary,comment, movies.average_rating, year, img_url FROM movies JOIN rating ON rating.movie_title WHERE title = ? ''',(title,)).fetchall()
-    print(my_movies)
-    return render_template("index.html", my_movies=my_movies,show_details=True )
+    my_movies = cursor.execute(''' SELECT DISTINCT movies.id, title, summary,comment, movies.average_rating, year, img_url FROM movies JOIN rating ON rating.movie_title = movies.title WHERE title = ? ''',(title,)).fetchall()
+    rate = [movie for movie in my_movies if movie['title']==title ]
+
+    return render_template("index.html", my_movies=my_movies,rate=rate, show_details=True )
 
 
 @app.route("/movie/delete/<string:title>")
@@ -116,22 +118,26 @@ def add_new_rating(title):
     return render_template("rating_form.html",title=title)
 
 
-@app.route('/movies/rating/update/<title>')
-def update_rating(title):
-    title = request.form['movie_title']
-    comment = request.form['comment']
-    average_rating = request.form['average_rating']
-
+@app.route('/movie/rating/update/<title>',methods=['POST'])
+def update_movie_rating(title):
+    average_rating = request.form['rate']
     try:
         connection = init()
         cursor = connection.cursor()
-        cursor.execute('''UPDATE rating SET comment = ?,average_rating=? WHERE title = ? ''',(comment,average_rating,title))
+        cursor.execute('''UPDATE movies SET average_rating=? WHERE title = ? ''',(average_rating,title))
     except sqlite3.OperationalError as e:
         return f'Unable to connect to movies.db: {e}'
     else:
         connection.commit()
         return f'Successfully updated the rating.'
 
+
+@app.route('/movies/rating/update/<title>')
+def update_movie_rating_form(title):
+    connection = init()
+    cursor = connection.cursor()
+    movie = cursor.execute('''SELECT * FROM movies WHERE title = ? ''',(title,)).fetchall()[0]
+    return render_template("update_movie_rating.html",movie=movie)
 
 @app.route('/movies/rating/<title>',methods=['POST'])
 def rating_form(title):

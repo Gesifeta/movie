@@ -25,8 +25,12 @@
         <div class="movie-details">
      <div class="details">
          <h2>{{ movie.title }} <span style="font-weight: inherit;color: gray">({{movie.year.split("-")[0]}})</span></h2>
-     <h3 class="rating">{{ movie['average_rating'] }} ⭐</h3>
-         <h3 class="rating">{{ movie['comment'] }}</h3>
+     <h3 class="rating">{{ movie['average_rating'] }}⭐<a class="edit-rating" href="{{url_for('update_movie_rating_form',title=movie.title)}}">edit</a> </h3>
+         {% if movie.comment %}
+         {% for rating in rate %}
+         <h4 class="rating" style="font-style: italic">"{{ rating['comment'] }}"</h4>
+         {% endfor %}
+         {% endif %}
      <p>{{ movie.summary }}</p>
      </div>
      <div class="btn-group">

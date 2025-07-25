@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Movie</title>
+    <title>{{heading}}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 <main>
     <div class="container-heading">
-        <h1  style="padding: 1rem 0"><span style="border-bottom:solid 2px dodgerblue;padding-bottom: .5rem">Add</span> New Movie</h1>
+        <h1  style="padding: 1rem 0"><span style="border-bottom:solid 2px dodgerblue;padding-bottom: .5rem">{{heading}}</span></h1>
     </div>
    <div class="movies">
   {% if show_movie_lists %}
